@@ -1,6 +1,6 @@
 # SharedWheels
 
-is a web-based carpooling system where users can share rides, reduce travel costs, and lower carbon emissions. The platform connects drivers who have available seats with passengers traveling the same route.is a web-based carpooling system where users can share rides, reduce travel costs, and lower carbon emissions. The platform connects drivers who have available seats with passengers traveling the same route.
+SharedWheels is a web-based carpooling system where users can share rides, reduce travel costs, and lower carbon emissions. The platform connects drivers who have available seats with passengers traveling the same route.is a web-based carpooling system where users can share rides, reduce travel costs, and lower carbon emissions. The platform connects drivers who have available seats with passengers traveling the same route.
 ## Features
 
 - User registration and login
