@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Picker UI</title>
+  <style>
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #f5dceb, #e3c5d9);
+    }
+
+    .date-picker-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px;
+      background-color: #fff;
+    }
+
+    input#date-input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    #calendar-icon {
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    .calendar-popup {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .calendar-header {
+      background-color: #e4e4e4;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .date-display {
+      font-size: 14px;
+    }
+
+    .month-nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .calendar-table th, .calendar-table td {
+      text-align: center;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .calendar-table td {
+      border: 1px solid #f1f1f1;
+    }
+
+    .calendar-table td.selected {
+      background-color: #a46b9a;
+      color: #fff;
+      border-radius: 50%;
+    }
+
+    .calendar-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .calendar-footer button {
+      background: none;
+      border: none;
+      color: #a46b9a;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="date-picker-container">
+ 
+    <div class="input-container">
+      <input type="text" id="date-input" placeholder="MM/DD/YYYY" readonly />
+      <span id="calendar-icon">📅</span>
+    </div>
+
+   
+    <div class="calendar-popup" id="calendar-popup">
+      <div class="calendar-header">
+        <div class="year-display">2024</div>
+        <div class="date-display" id="selected-date">Fri, Jul 05</div>
+      </div>
+      <div class="calendar-body">
+        <div class="month-nav">
+          <button id="prev-month">&lt;</button>
+          <span id="month-year">July 2024</span>
+          <button id="next-month">&gt;</button>
+        </div>
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th>
+            </tr>
+          </thead>
+          <tbody id="calendar-days">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="calendar-footer">
+        <button id="cancel-btn">CANCEL</button>
+        <button id="ok-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateInput = document.getElementById("date-input");
+      const calendarIcon = document.getElementById("calendar-icon");
+      const calendarPopup = document.getElementById("calendar-popup");
+      const calendarDays = document.getElementById("calendar-days");
+      const monthYearDisplay = document.getElementById("month-year");
+      const okBtn = document.getElementById("ok-btn");
+      const cancelBtn = document.getElementById("cancel-btn");
+
+      let selectedDate = new Date(2024, 6, 5); 
+      let currentMonth = selectedDate.getMonth();
+      let currentYear = selectedDate.getFullYear();
+
+      const MONTHS = ["January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"];
+
+     
+      function toggleCalendar() {
+        calendarPopup.style.display = calendarPopup.style.display === "block" ? "none" : "block";
+        renderCalendar(currentMonth, currentYear);
+      }
+
+     
+      function renderCalendar(month, year) {
+        calendarDays.innerHTML = ""; // Clear previous content
+        monthYearDisplay.textContent = `${MONTHS[month]} ${year}`;
+
+        let firstDay = new Date(year, month, 1).getDay();
+        let daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let row = document.createElement("tr");
+        for (let i = 0; i < firstDay; i++) {
+          row.appendChild(document.createElement("td"));
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayCell = document.createElement("td");
+          dayCell.textContent = day;
+          dayCell.addEventListener("click", () => {
+            selectedDate = new Date(year, month, day);
+            updateSelectedDate();
+            highlightSelectedDay(dayCell);
+          });
+          if (day === selectedDate.getDate() && month === selectedDate.getMonth()) {
+            dayCell.classList.add("selected");
+          }
+          row.appendChild(dayCell);
+          if ((firstDay + day) % 7 === 0) {
+            calendarDays.appendChild(row);
+            row = document.createElement("tr");
+          }
+        }
+        calendarDays.appendChild(row);
+      }
+
+      function highlightSelectedDay(cell) {
+        document.querySelectorAll(".calendar-table td").forEach(td => td.classList.remove("selected"));
+        cell.classList.add("selected");
+      }
+
+      function updateSelectedDate() {
+        const formattedDate = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}/${selectedDate.getFullYear()}`;
+        dateInput.value = formattedDate;
+      }
+
+     
+      calendarIcon.addEventListener("click", toggleCalendar);
+      cancelBtn.addEventListener("click", toggleCalendar);
+      okBtn.addEventListener("click", () => {
+        updateSelectedDate();
+        calendarPopup.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

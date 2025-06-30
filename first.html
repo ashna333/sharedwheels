@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Carpooling Community</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* Full-page styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f5eb, #f8dab2); /* Beige to Brown gradient */
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Glassmorphic Container */
+        .container {
+            background: rgba(255, 248, 220, 0.3); /* Light beige glass effect */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(90, 62, 43, 0.3);
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Heading Styling */
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: #5a3e2b;
+        }
+
+        /* Paragraph Styling */
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: #8b5a2b; /* Brown button */
+            color: white;
+            padding: 12px 30px;
+            margin: 10px 5px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 6px 20px rgba(139, 90, 43, 0.4);
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Button Hover Effect */
+        .btn:hover {
+            background: #a0522d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 90, 43, 0.6);
+        }
+
+        /* Animation for container */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shared Wheels!</h1>
+        <p>Save money and reduce your carbon footprint by sharing rides</p>
+        <a href="/login" class="btn">Login</a>
+        <a href="/signup" class="btn">Signup</a>
+    </div>
+</body>
+</html>

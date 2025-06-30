@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Rides</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f5f5eb, #f8dab2);
+            color: #5a3e2b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+        }
+
+        h1, h2 {
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #5a3e2b;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d2a679;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fae6d3;
+        }
+
+        tr:hover {
+            background-color: #e5c7a5;
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<script>
+function confirmBooking(rideId) {
+    console.log("Booking ride ID:", rideId); // Add this for debug
+    fetch(`/reduce-seat/${rideId}`)
+        .then(res => {
+            if (res.ok) {
+                alert('Booking confirmed! Seat count updated.');
+                location.reload();
+            } else if (res.status === 400) {
+                alert('No seats available for this ride.');
+            } else if (res.status === 404) {
+                alert('Ride not found.');
+            } else if (res.status === 500) {
+                alert('Server error: Failed to update seats.');
+            } else {
+                alert('Failed to update seats. Try again.');
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error);
+        });
+}
+</script>
+
+<body>
+    <div class="container">
+        <h1>Available Rides</h1>
+        <h2>Welcome, {{ session['first_name'] }}</h2>
+        <table>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Via</th>
+                <th>Date and Time</th>
+                <th>Available Seats</th>
+                <th>Rider Name</th>
+                <th>Contact Number</th>
+            </tr>
+            {% if rides %}
+                {% for ride in rides %}
+                <tr>
+                    <td>{{ ride[2] }}</td>
+                    <td>{{ ride[3] }}</td>
+                    <td>{{ ride[4] }}</td>
+                    <td>{{ ride[5] }}</td>
+                    <td>{{ ride[6] }}</td>
+                    <td>{{ ride[8] }} {{ ride[9] }}</td>
+                    <td>
+                        <a href="tel:{{ ride[7] }}" style="color: #5a3e2b; text-decoration: none;">
+                            {{ ride[7] }}
+                        </a>
+                        <br>
+                        <button onclick="confirmBooking({{ ride[0] }})" style="margin-top: 5px; background-color: #d2a679; color: white; border: none; padding: 5px 10px; border-radius: 5px;">
+                            Confirm Booking
+                        </button>
+                    </td>
+                    
+                    
+                    
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">No rides found matching your criteria.</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+</body>
+</html>

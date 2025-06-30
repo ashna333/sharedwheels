@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Ride</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f5f5eb, #f8dab2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(139, 69, 19, 0.8);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .options a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .container {
+    background: rgba(255, 248, 220, 0.5);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(90, 62, 43, 0.3);
+    backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            background: #8b4513;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #5a2d0c;
+            transform: scale(1.05);
+        }
+        form input, form button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        form button {
+            background: #8b4513;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        form button:hover {
+            background: #5a2d0c;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="user-section">Welcome,  {{ session['first_name'] }} {{ session['last_name'] }}</div>
+        <div class="options">
+            <a href="/home">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/login">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>Find a Ride</h1>
+        <div class="btn-container">
+            <button class="btn" onclick="window.location.href='/offer'">Offer Ride</button>
+            <button class="btn" onclick="window.location.href='/find'">Find Ride</button>
+        </div>
+        <form action="/find" method="post">
+            <input type="text" name="from" placeholder="From" required>
+            <input type="text" name="to" placeholder="To" required>
+            <input type="date" name="date" required>
+            <input type="time" name="time" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</body>
+</html>

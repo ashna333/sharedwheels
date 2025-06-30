@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offer a Ride</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg,  #f5f5eb, #f8dab2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background: #8b5a2b;
+            color: white;
+            padding: 15px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .navbar .options a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .container {
+            background: rgba(255, 248, 220, 0.5);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(90, 62, 43, 0.3);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #5a3e2b;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            background: #8b5a2b;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background: #6e3f1f;
+            transform: translateY(-3px);
+        }
+
+        form input, form button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        form input {
+            background: rgba(255, 255, 255, 0.6);
+            color: #5a3e2b;
+        }
+
+        form button {
+            background: #5a3e2b;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        form button:hover {
+            background: #8b5a2b;
+            transform: scale(1.05);
+        }
+
+        #distance {
+            font-size: 16px;
+            font-weight: bold;
+            color: #5a3e2b;
+            margin-top: 15px;
+        }
+
+        .map-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        function calculateDistance() {
+            const from = document.querySelector('input[name="from"]').value;
+            const to = document.querySelector('input[name="to"]').value;
+            if (from && to) {
+                document.getElementById('distance').innerText = Approximate distance from ${from} to ${to} is being calculated...;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="user-section">Welcome, {{ session['first_name']   }}</div>
+        <div class="options">
+            <a href="/home">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/login">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>Offer a Ride</h1>
+        
+        {% if message %}
+            <p style="color: green; font-weight: bold;">{{ message }}</p>
+        {% endif %}
+        
+        <div class="btn-container">
+            <button class="btn" onclick="window.location.href='/offer'">Offer Ride</button>
+            <button class="btn" onclick="window.location.href='/find'">Find Ride</button>
+        </div>
+        
+        <form action="/offer" method="post">
+            <input type="text" name="from" placeholder="From" required oninput="calculateDistance()">
+            <input type="text" name="to" placeholder="To" required oninput="calculateDistance()">
+            <input type="text" name="via" placeholder="Via" required>
+            <input type="number" name="seats" placeholder="Seats Available" required>
+            <input type="date" name="date" required>
+            <input type="time" name="time" required>
+            <button type="submit">Offer Ride</button>
+        </form>
+        
+        <p id="distance"></p>
+        
+        <div class="map-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png" alt="World Map" width="100%">
+
+        </div>
+    </div>
+</body>
+</html>
